@@ -1,0 +1,20 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+<h1>{{profile.title}}</h1>
+
+{% if profile.avatar %}
+<p><img class="img-article-left" src="{{profile.avatar.url}}"></p>
+{% endif %}
+
+{{profile}}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Подтвердить</button>
+</form>
+
+<form action="{% url 'profile_delete' profile.slug %}">
+    <p style="color: red"><button type="submit">УДАЛИТЬ</button></p>
+</form>
+{% endblock %}

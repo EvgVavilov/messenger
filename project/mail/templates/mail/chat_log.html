@@ -1,0 +1,39 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<form action="{% url 'send'%}" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ form }}
+    <input type="hidden" name="chat" value="{{ chat }}">
+    <button type="submit">
+        Отправить
+    </button>
+</form>
+<table class="" width="100%">
+    {% for m in messages %}
+
+    <tr><td colspan="4" style="background: pink">{{ m.sender }}</td></tr>
+
+        <tr>
+            <td width="70%" class="left-chapters" style="word-break: break-all">{{ m.text }}</td>
+            <td align="right">{{ m.send_time }}</td>
+        </tr>
+        <tr>
+            <td>
+            {% if m.attached_photo %}
+                <img class="img-article-left" src="{{m.attached_photo.url}}" width="100px">
+            {% endif %}
+            </td>
+            <td>
+                {% if m.attached_file %}
+                    <a href="{{m.attached_file.url}}" download="">Скачать</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+{% endblock %}

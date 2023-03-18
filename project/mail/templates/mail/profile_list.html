@@ -1,0 +1,25 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<table class="">
+    {% for p in profiles %}
+    <tr>
+        <td class="left-chapters" >{{ p.name }}</td>
+        <td>{{ p.last_name }}</td>
+        {% if p.avatar %}
+            <td><img src="{{ p.avatar.url }}" width="100px"></td>
+        {% else %}
+            <td width="100px"></td>
+        {% endif %}
+        <td>{{ p.is_active }}</td>
+        <td><form action="{% url 'active' %}"><button value="{{ p.pk }}" name="id">Активировать</button></form></td>
+        <td><form action="{{ p.get_absolute_url }}"><button>Подробнее</button></form></td>
+        <td><form action="{% url 'profile_update' p.slug %}"><button>Изменить</button></form></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'profile_create' %}">Создать новый профиль</a>
+
+{% endblock %}

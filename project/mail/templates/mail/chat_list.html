@@ -1,0 +1,14 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<table class="">
+    {% for ch in chats %}
+    <tr>
+        <td class="left-chapters"><a href="{{ ch.get_absolute_url }}">{{ ch.chat_name }}</a></td>
+        <td>{{ ch.time_update }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<h1>Аккаунт</h1>
+
+<h2>{{account.username}}</h2>
+<p>{{account.first_name}} {{account.last_name}}</p>
+
+{% if account.is_superuser %}
+    <h3 style="color: red"> АДМИН </h3>
+{% endif %}
+
+<p> Электронная почта: {{ account.email }}</p>
+
+<a href="/account/update/">Изменить аккаунт</a>
+{% endblock %}

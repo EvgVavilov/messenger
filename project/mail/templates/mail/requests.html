@@ -1,0 +1,41 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<h1>Заявки</h1>
+
+<h2>Входящие заявки:</h2>
+{% for i in incoming %}
+    <table>
+        <tr>
+            <td>
+            {% if i.avatar %}
+            <p><img class="img-article-left" src="{{i.avatar.url}}" width="50px%"></p>
+            {% endif %}
+            </td>
+            <td><a href="{{ i.get_absolute_url }}">{{ i.name }} {{ i.last_name }}</a></td>
+            <td><form action="{% url 'accept_request' i.slug %}"> <button>Принять</button></form></td>
+        </tr>
+    </table>
+{% endfor %}
+
+<h2>Исходящие заявки:</h2>
+{% for o in outgoing %}
+    <table>
+        <tr>
+            <td>
+            {% if o.avatar %}
+            <p><img class="img-article-left" src="{{o.avatar.url}}" width="50px%"></p>
+            {% endif %}
+            </td>
+            <td><a href="{{ o.get_absolute_url }}">{{ o.name }} {{ o.last_name }}</a></td>
+            <td><form action="{% url 'cancel_request' o.slug %}"> <button>Отменить</button></form></td>
+        </tr>
+    </table>
+{% endfor %}
+
+
+<br>
+<br>
+
+{% endblock %}}

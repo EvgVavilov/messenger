@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+	<link type="text/css" href="{% static 'mail/css/styles.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+{% block mainmenu %}
+		<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+{% for m in menu %}
+			<li><a href="{%url m.url_name%}">{{m.title}}</a></li>
+{% endfor %}
+				{% if request.user.is_authenticated %}
+				<li class="last"> {{user.username}} | <a href="{%url 'logout' %}">Выйти</a></li>
+				{% else %}
+
+				<li class="last"></li>
+
+				<li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+				{% endif %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+<form action="{% url 'search' %}" method="post">
+	{% csrf_token %}
+	<p align="center">
+		Поиск: <input name="search" type="text" style="align-text: right"><button type="submit">Искать</button>
+	</p>
+</form>
+
+{{ error }}
+
+<br>
+<br>
+<br>
+
+{% block content %}
+{% endblock %}
+
+<br>
+<br>
+<br>
+
+{% for p in paginator.page_range %}
+	{% if page_obj.number == p %}
+        {{ p }}
+		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+		<a href="?page={{ p }}">{{ p }}</a>
+	{% endif %}
+{% endfor %}
+
+
+</body>
+</html>

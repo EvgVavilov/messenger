@@ -1,0 +1,64 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+
+<h1>Профиль</h1>
+
+{% if status == 'Мой профиль'%}
+<p>{{ status }}</p>
+{% endif %}
+
+{% if profile.avatar %}
+<p><img class="img-article-left" src="{{profile.avatar.url}}" width="50%"></p>
+{% endif %}
+
+<h2>Указанное имя: {{profile.name}} {{profile.last_name}}</h2>
+
+<p> Электронная почта: {{ profile.email }}</p>
+<p> Дата рождения: {{ profile.date_birth }}</p>
+<p> Контактная информация: {{ profile.contact_inform }}</p>
+<p> Место проживания: {{ profile.live_place }}</p>
+<p> О себе: {{ profile.about_self }}</p>
+
+{% if status == 'another_account' or status == 'Мой профиль' %}
+<a href="{% url 'send_request' profile.slug %}">Добавить в друзья</a>
+{% endif%}
+
+{% if status1 == 'account_already_asked' %}
+<a href="{% url 'cancel_request' profile.slug %}">Отменить заявку в друзья</a>
+{% endif %}
+
+{% if status == 'Мой профиль'%}
+<a href="/profile/update/{{profile.slug}}/">Изменить профиль</a>
+{% endif %}
+
+{% if friend %}
+    <a href="{% url 'to_chat' profile.slug %}">Перейти к диалогу</a>
+{% endif %}
+<br>
+<br>
+
+<h2>Друзья:</h2>
+
+{% for f in friends %}
+    <table>
+        <tr>
+            <td>
+            {% if f.avatar %}
+            <p><img class="img-article-left" src="{{f.avatar.url}}" width="50%"></p>
+            {% endif %}
+            </td>
+            <td><a href="{{ f.get_absolute_url }}">{{ f.name }} {{ f.last_name }}</a></td>
+        </tr>
+    </table>
+{% endfor %}
+
+<br>
+<br>
+
+{% if status == 'Мой профиль' %}
+<p><a href="{% url 'request' %}">Заявки в друзья</a></p>
+
+{% endif %}
+
+{% endblock %}
